@@ -27,10 +27,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 
 
-/**
- * Created on 09/05/15.
- */
-
 @Configuration
 @EnableBatchProcessing
 @EnableAutoConfiguration
@@ -80,6 +76,11 @@ public class BatchConfiguration {
     }
 
     @Bean
+    public Job importFurnitureJob2(JobBuilderFactory jobs, Step s1) {
+        return jobs.get("importFurtnitureJobNew").incrementer(new RunIdIncrementer()).flow(s1).end().build();
+    }
+
+    @Bean
     public  Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<Furniture> reader, ItemWriter<Furniture> writer,
                        ItemProcessor<Furniture, Furniture> processor) {
         return  stepBuilderFactory.get("step1").<Furniture, Furniture> chunk(10).reader(reader)
@@ -90,24 +91,6 @@ public class BatchConfiguration {
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
-
-/*
-
-    public Step step1(){
-        return  stepBuilderFactory.get("step1").tasklet(new Tasklet() {
-            @Override
-            public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                System.out.println("Simple");
-                return null;
-            }
-        }).build();
-    }
-
-
-    public Job job(Step step1) throws Exception {
-        return jobBuilderFactory.get("job1").incrementer(new RunIdIncrementer()).start(step1).build();
-    }
-*/
 
 
 
