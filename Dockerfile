@@ -38,7 +38,7 @@ VOLUME /tmp/temp
 # Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
 
-RUN chown -R postgres /tmp/
+#RUN chown -R postgres /tmp/
 
 # Create a PostgreSQL role named ``docker`` with ``docker`` as the password and
 # then create a database `docker` owned by the ``docker`` role.
@@ -69,3 +69,5 @@ CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main
 #sudo docker build -t postgres_db .
 #sudo docker run --rm -P -p 5432:5432  postgres_db
 #sudo docker run -d -P -p 5432:5432 -v /home/manav/source/code/docker/postgres/files:/tmp/temp postgres_db
+
+#sudo docker run -P -t -i -p 5432:5432 -v /home/manav/source/code/docker/postgres/files:/tmp/temp postgres_db /bin/bash
